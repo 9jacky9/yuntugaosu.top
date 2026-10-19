@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家庭多端全景覆盖：软路由OpenWrt旁路网关分流配置与跨洋传输调优心得 - 光波智库</title>
+  <meta name="description" content="实战讲解软路由OpenWrt旁路网关（旁路由）拓扑搭建、智能流量分流、电视盒子4K解锁与全屋多设备免客户端极速访问配置心得。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="horizon-nav">
+    <div class="prism-container horizon-nav-inner">
+      <div class="horizon-logo-box">
+        <a href="index.html" aria-label="云图高速 首页">
+          <svg width="176" height="42" viewBox="0 0 176 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sunHorizonGradArtTop3" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#FF5E57" />
+                <stop offset="100%" stop-color="#FFA801" />
+              </linearGradient>
+            </defs>
+            <circle cx="24" cy="28" r="9" fill="url(#sunHorizonGradArtTop3)" />
+            <line x1="2" y1="28" x2="46" y2="28" stroke="#FFA801" stroke-width="2.2" stroke-linecap="round" />
+            <text x="52" y="26" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="19" font-weight="900" letter-spacing="1.2" fill="#FFF5EB">云图高速</text>
+            <text x="53" y="37" font-family="monospace" font-size="7.5" font-weight="800" fill="#FFA801">OPENWRT</text>
+          </svg>
+        </a>
+      </div>
+      <div>
+        <a href="radar.html" style="color: var(--prism-amber); font-size: 0.92rem;">返回光波智库</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="prism-container prism-subpage-wrap">
+    <div style="margin-bottom: 24px;">
+      <a href="radar.html" style="color: var(--prism-amber); font-size: 0.92rem; display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#FFA801" stroke-width="2" stroke-linecap="round"/></svg>
+        返回 光波智库 专栏
+      </a>
+    </div>
+
+    <article class="prism-subpage-box article-solar-body">
+      <header class="article-solar-header">
+        <h1>家庭多端全景覆盖：软路由OpenWrt旁路网关分流配置与跨洋传输调优心得</h1>
+        <div class="article-solar-meta">
+          <span>发布日期：2026-10-10</span>
+          <span>分类：极客家庭网络实战</span>
+          <span>阅读耗时：约 9 分钟</span>
+        </div>
+      </header>
+
+      <h2>一、 多设备时代的使用痛点：为什么每个客户端都装软件让人心力交瘁？</h2>
+      <p>在当代极客和多成员数字家庭中，智能终端的规模往往令人咋舌：除了每个人的智能手机、平板和工作电脑外，还有客厅的 Apple TV、索尼 4K 电视、游戏主机 Switch/PS5，以及各类扫地机器人与智能音箱。如果每台设备都需要单独配置客户端，不仅面临系统平台的兼容性限制（游戏机与很多电视盒子原生根本无法安装复杂软件），更存在家庭成员频繁误触导致断网的维护噩梦。</p>
+      <p>参考极客社群备受推崇的 <a href="https://tizilab.net/" target="_blank">梯子实验室知识库</a> 实操方案：通过一台低功耗小主机部署基于 Linux 内核的 OpenWrt 软路由作为“旁路网关（Bypass Gateway）”，让全屋所有设备在物理网络层实现“无感透明加速”，是解决这一难题的最优雅架构方案。</p>
+
+      <h2>二、 旁路网关（旁路由）拓扑的核心逻辑</h2>
+      <h3>1. 主路由与旁路网关的分工协作</h3>
+      <p>很多初学者误以为使用软路由就必须替换掉家里的硬路由器。实际上，最稳固的拓扑是“主路由负责 PPPoE 拨号、NAT 转换与 Wi-Fi 覆盖，旁路网关专注流量过滤与加密中继”。主路由与旁路由位于同一局域网网段（例如 192.168.1.0/24），两者之间仅需一根千兆或 2.5G 网线相连，拓扑侵入性极低。</p>
+
+      <h3>2. 静态网关重定向与 DHCP 灵活指派</h3>
+      <p>在主路由的 DHCP 设置中，将默认网关（Gateway）和 DNS 地址直接指向旁路网关的局域网 IP（例如 192.168.1.2）。当局域网内的任何手机或电视发起访问时，数据包首先流向旁路由进行智能解包分流，随后由主路由出口转发至公网。即使旁路由偶尔断电重启，只需在主路由一键切换网关即可瞬间恢复全屋通信，具备极佳的家庭容灾能力。</p>
+
+      <h2>三、 智能分流规则的黄金配置准则</h2>
+      <h3>1. 基于 GeoIP 与 ChinaDNS 的双向防污染分流</h3>
+      <p>在 OpenWrt 系统中配置核心分流引擎（如基于 NFTables 或 Tproxy 架构的现代内核转发）。国内所有主流应用（微信、抖音、淘宝、腾讯视频、网易云等）严格走国内本地直连路由，享受原本完整的运营商千兆带宽；针对海外受限域名与全球学术/影音平台，则透明注入专线加密信道。</p>
+
+      <h3>2. 解决旁路网关“发夹弯（Hairpinning）”与 ICMP 重定向问题</h3>
+      <p>在旁路网关配置中，一个最常见的致命错误是未禁用接口的 ICMP 重定向功能，导致数据包在主路由和旁路由之间反复震荡循环，严重拖慢速率。必须在 OpenWrt 的防火墙自定义规则中加入如下语句禁用重定向并确保 NAT 伪装完备：</p>
+      <p style="background: rgba(0,0,0,0.3); padding: 12px 16px; border-radius: 4px; font-family: monospace; font-size: 0.88rem; color: #FFA801;">iptables -t nat -A POSTROUTING -o br-lan -j MASQUERADE<br>echo 0 &gt; /proc/sys/net/ipv4/conf/all/send_redirects</p>
+
+      <h2>四、 Apple TV 与家庭 4K 影院实战调优</h2>
+      <h3>1. 打造零缓冲客厅超清视听中心</h3>
+      <p>配置完成后，客厅中的 Apple TV 无需安装任何额外 VPN 客户端，打开自带的官方应用（如 YouTube、Netflix、Infuse 等），即可自动继承旁路网关的智能分流能力，原生 4K HDR 视频秒级点播起飞，画质完全拉满。</p>
+
+      <h3>2. 游戏主机 NAT 类型提升为 Open</h3>
+      <p>在旁路网关中针对 PS5 或 Switch 的局域网 IP 单独开启端口映射（UPnP / Full-Cone NAT），将原本严格受限的 NAT Type 3 瞬间提升为开阔的 NAT Type 2 甚至 Type 1，外服联机匹配速度呈现质的飞跃。</p>
+
+      <h2>五、 结语</h2>
+      <p>真正的智能家庭，不在于表面炫酷的界面，而在于底层网络无微不至的流畅与静默奉献。搭建一套高稳定性的 OpenWrt 旁路网关，将让全家人的每一次数字探索都变得格外轻盈自在。</p>
+    </article>
+  </main>
+
+  <footer class="twilight-footer">
+    <div class="prism-container">
+      <ul class="twilight-footer-links">
+        <li><a href="sitemap.html">网站地图</a></li>
+        <li><a href="about.html">关于我们</a></li>
+        <li><a href="terms.html">服务条款</a></li>
+        <li><a href="privacy.html">隐私政策</a></li>
+      </ul>
+      <p class="twilight-copy">© 2026 云图高速 YUNTUGAOSU.TOP. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

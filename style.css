@@ -1,0 +1,858 @@
+/* ==========================================================================
+   yuntugaosu.top - 暖阳余晖与棱镜暖光风 (Sunset Horizon & Warm Prism)
+   Extreme Performance Optimized - Pure CSS - Zero External Dependencies
+   ========================================================================== */
+
+:root {
+  --prism-bg: #0e0b19;
+  --prism-surface: #171326;
+  --prism-surface-hover: #211c36;
+  --prism-coral: #ff5e57;
+  --prism-coral-hover: #ff7670;
+  --prism-amber: #ffa801;
+  --prism-rose: #ef5777;
+  --prism-cream: #fff5eb;
+  --prism-muted: #a59fb3;
+  --prism-dim: #6d667d;
+  --prism-border: rgba(255, 168, 1, 0.22);
+  --prism-border-subtle: rgba(255, 255, 255, 0.08);
+  --prism-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --radius-prism: 10px;
+  --prism-ease: 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--prism-bg);
+  color: var(--prism-cream);
+}
+
+body {
+  font-family: var(--prism-font);
+  line-height: 1.68;
+  background-color: var(--prism-bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sunset Warm Horizon Glow (Non-neon, warm solar rays) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% -10%, rgba(255, 94, 87, 0.16) 0%, transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(255, 168, 1, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #0e0b19 0%, #0a0812 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.prism-container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+a, a:visited {
+  color: var(--prism-amber);
+  text-decoration: none;
+  transition: all var(--prism-ease);
+}
+
+a:hover, a:focus {
+  color: #ff7670;
+  text-decoration: underline;
+}
+
+/* Specific button overrides */
+.btn-solar-cta, .btn-solar-cta:visited {
+  color: #0e0b19 !important;
+  text-decoration: none !important;
+}
+
+.btn-solar-recommend, .btn-solar-recommend:visited {
+  color: var(--prism-amber) !important;
+  text-decoration: none !important;
+}
+
+.prism-subpage-body a, .prism-subpage-body a:visited,
+.article-solar-body a, .article-solar-body a:visited {
+  color: var(--prism-amber) !important;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.prism-subpage-body a:hover,
+.article-solar-body a:hover {
+  color: var(--prism-coral) !important;
+}
+
+/* Horizon Topbar */
+.horizon-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(14, 11, 25, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--prism-border);
+}
+
+.horizon-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.horizon-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.horizon-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  list-style: none;
+}
+
+.horizon-nav-list li a {
+  color: var(--prism-muted);
+  font-size: 0.94rem;
+  font-weight: 500;
+}
+
+.horizon-nav-list li a:hover {
+  color: var(--prism-amber);
+}
+
+/* Horizon Buttons */
+.btn-solar-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--prism-coral) 0%, var(--prism-amber) 100%);
+  color: #0e0b19;
+  padding: 12px 28px;
+  border-radius: var(--radius-prism);
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(255, 94, 87, 0.35);
+  cursor: pointer;
+  transition: all var(--prism-ease);
+}
+
+.btn-solar-cta:hover {
+  background: linear-gradient(135deg, var(--prism-coral-hover) 0%, #ffbe2b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 26px rgba(255, 168, 1, 0.45);
+  color: #0e0b19;
+}
+
+.btn-solar-recommend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 168, 1, 0.12);
+  color: var(--prism-amber);
+  padding: 12px 26px;
+  border-radius: var(--radius-prism);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid var(--prism-border);
+  transition: all var(--prism-ease);
+}
+
+.btn-solar-recommend:hover {
+  background: rgba(255, 168, 1, 0.24);
+  border-color: var(--prism-amber);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-solar-nav {
+  padding: 8px 18px;
+  font-size: 0.88rem;
+}
+
+/* Solar Dawn Hero (Centered Refractive Staging) */
+.solar-dawn-hero {
+  padding: 80px 0 60px;
+  text-align: center;
+  position: relative;
+}
+
+.solar-badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 94, 87, 0.12);
+  border: 1px solid var(--prism-border);
+  color: var(--prism-amber);
+  padding: 5px 16px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.solar-hero-title {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.24;
+  margin-bottom: 22px;
+  letter-spacing: -0.5px;
+}
+
+.solar-hero-title span {
+  background: linear-gradient(135deg, var(--prism-coral) 0%, var(--prism-amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.solar-hero-sub {
+  font-size: 1.12rem;
+  color: var(--prism-muted);
+  max-width: 700px;
+  margin: 0 auto 36px;
+  line-height: 1.78;
+}
+
+.solar-hero-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+/* Frequency Band (Solar Highlights) */
+.warmth-frequency-band {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border);
+  border-radius: var(--radius-prism);
+  padding: 22px 28px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.freq-item {
+  text-align: center;
+}
+
+.freq-num {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--prism-amber);
+  font-family: monospace;
+}
+
+.freq-label {
+  font-size: 0.82rem;
+  color: var(--prism-muted);
+  margin-top: 4px;
+}
+
+/* Sections Layout */
+.prism-section {
+  padding: 80px 0;
+}
+
+.prism-sec-head {
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto 52px;
+}
+
+.prism-sec-tag {
+  color: var(--prism-coral);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.prism-sec-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.prism-sec-desc {
+  font-size: 1rem;
+  color: var(--prism-muted);
+  line-height: 1.7;
+}
+
+/* Pricing Grid (Placed EARLY in DOM hierarchy!) */
+.prism-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.prism-plan-card {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all var(--prism-ease);
+}
+
+.prism-plan-card.hot-solar {
+  border-color: var(--prism-coral);
+  box-shadow: 0 10px 32px rgba(255, 94, 87, 0.24);
+  transform: scale(1.02);
+}
+
+.hot-solar-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--prism-coral) 0%, var(--prism-amber) 100%);
+  color: #0e0b19;
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 3px 14px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+.plan-tier-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.plan-tier-sub {
+  font-size: 0.86rem;
+  color: var(--prism-muted);
+  margin-bottom: 22px;
+}
+
+.plan-price-num {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--prism-cream);
+  margin-bottom: 26px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: monospace;
+}
+
+.plan-price-num span {
+  font-size: 0.95rem;
+  color: var(--prism-dim);
+}
+
+.plan-features-ul {
+  list-style: none;
+  margin-bottom: 30px;
+  flex-grow: 1;
+}
+
+.plan-feature-li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.89rem;
+  color: var(--prism-muted);
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.plan-feature-li svg {
+  flex-shrink: 0;
+}
+
+.prism-plan-card .btn-solar-cta {
+  width: 100%;
+}
+
+/* Features Grid (4 Cards - 极致飞跃体验与专属防护) */
+.solar-cards-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.solar-card {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 30px 24px;
+  transition: all var(--prism-ease);
+}
+
+.solar-card:hover {
+  background: var(--prism-surface-hover);
+  border-color: var(--prism-border);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.solar-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 168, 1, 0.12);
+  border: 1px solid var(--prism-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.solar-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--prism-cream);
+}
+
+.solar-card-text {
+  font-size: 0.9rem;
+  color: var(--prism-muted);
+  line-height: 1.68;
+}
+
+/* Media & AI (3 Cards) */
+.solar-cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* FAQ (4 items) */
+.prism-faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.prism-faq-item {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 24px;
+}
+
+.prism-faq-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--prism-cream);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prism-faq-desc {
+  font-size: 0.88rem;
+  color: var(--prism-muted);
+  line-height: 1.7;
+}
+
+/* Testimonials (3 cards) */
+.prism-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.prism-review-card {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 26px;
+}
+
+.prism-review-quote {
+  font-size: 0.92rem;
+  color: var(--prism-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.prism-review-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-solar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 94, 87, 0.15);
+  border: 1px solid var(--prism-border);
+  color: var(--prism-amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.user-solar-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--prism-cream);
+}
+
+.user-solar-desc {
+  font-size: 0.78rem;
+  color: var(--prism-dim);
+}
+
+/* Footer (ONLY 4 Titles: 网站地图, 关于我们, 服务条款, 隐私政策) */
+.twilight-footer {
+  background: #090710;
+  border-top: 1px solid var(--prism-border-subtle);
+  padding: 42px 0 32px;
+  text-align: center;
+}
+
+.twilight-footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.twilight-footer-links li a {
+  color: var(--prism-muted);
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 4px;
+}
+
+.twilight-footer-links li a:hover {
+  color: var(--prism-amber);
+  background: rgba(255, 168, 1, 0.08);
+}
+
+.twilight-copy {
+  font-size: 0.82rem;
+  color: var(--prism-dim);
+}
+
+/* Subpage Layout */
+.prism-subpage-wrap {
+  padding: 60px 0 90px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.prism-subpage-box {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 40px;
+}
+
+.prism-subpage-h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--prism-cream);
+  border-bottom: 1px solid var(--prism-border-subtle);
+  padding-bottom: 16px;
+}
+
+.prism-subpage-body h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 28px 0 12px;
+  color: var(--prism-amber);
+}
+
+.prism-subpage-body p {
+  font-size: 0.95rem;
+  color: var(--prism-muted);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.prism-subpage-body ul {
+  list-style: disc;
+  padding-left: 24px;
+  margin-bottom: 20px;
+  color: var(--prism-muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* Radar & Articles Grid */
+.radar-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+  margin-top: 34px;
+}
+
+.radar-card-item {
+  background: var(--prism-surface);
+  border: 1px solid var(--prism-border-subtle);
+  border-radius: var(--radius-prism);
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--prism-ease);
+}
+
+.radar-card-item:hover {
+  border-color: var(--prism-amber);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+}
+
+.radar-card-meta {
+  font-size: 0.8rem;
+  color: var(--prism-coral);
+  font-family: monospace;
+  margin-bottom: 12px;
+}
+
+.radar-card-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.radar-card-title a, .radar-card-title a:visited {
+  color: var(--prism-cream) !important;
+  text-decoration: none;
+}
+
+.radar-card-title a:hover {
+  color: var(--prism-amber) !important;
+}
+
+.radar-card-snippet {
+  font-size: 0.91rem;
+  color: var(--prism-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.radar-card-link {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--prism-amber) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.article-solar-header {
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--prism-border-subtle);
+  padding-bottom: 20px;
+}
+
+.article-solar-header h1 {
+  font-size: 2.15rem;
+  font-weight: 900;
+  line-height: 1.35;
+  margin-bottom: 16px;
+  color: var(--prism-cream);
+}
+
+.article-solar-meta {
+  display: flex;
+  gap: 18px;
+  font-size: 0.85rem;
+  color: var(--prism-dim);
+}
+
+.article-solar-body h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin: 34px 0 16px;
+  color: var(--prism-cream);
+  border-left: 3px solid var(--prism-amber);
+  padding-left: 12px;
+}
+
+.article-solar-body h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 24px 0 12px;
+  color: var(--prism-coral);
+}
+
+.article-solar-body p {
+  font-size: 0.98rem;
+  color: #d1cdd9;
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+
+/* Responsive Rules */
+@media (max-width: 992px) {
+  .solar-cards-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .solar-cards-3 {
+    grid-template-columns: 1fr;
+  }
+  .prism-pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .prism-plan-card.hot-solar {
+    transform: none;
+  }
+  .warmth-frequency-band {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .prism-faq-grid {
+    grid-template-columns: 1fr;
+  }
+  .prism-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+  .horizon-nav-list {
+    gap: 16px;
+  }
+  .horizon-nav-list li a {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 108px;
+  }
+  .horizon-nav {
+    padding: 8px 0 10px;
+  }
+  .horizon-nav-inner {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0;
+    row-gap: 8px;
+  }
+  .horizon-logo-box {
+    order: 1;
+    flex: 0 0 auto;
+  }
+  .horizon-logo-box svg {
+    width: 148px;
+    height: 36px;
+  }
+  .horizon-nav-inner > div:last-child {
+    order: 2;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+  .horizon-nav .btn-solar-cta {
+    width: auto !important;
+    min-height: 36px !important;
+    padding: 6px 14px !important;
+    font-size: 0.85rem !important;
+    border-radius: var(--radius-prism);
+  }
+  .horizon-nav-list {
+    order: 3;
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    gap: 8px;
+    padding: 6px 2px 4px;
+    margin: 4px 0 0;
+    border-top: 1px solid rgba(255, 168, 1, 0.18);
+    scrollbar-width: none;
+  }
+  .horizon-nav-list::-webkit-scrollbar {
+    display: none;
+  }
+  .horizon-nav-list li {
+    flex-shrink: 0;
+  }
+  .horizon-nav-list li a {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    background: rgba(255, 168, 1, 0.06);
+    border: 1px solid rgba(255, 168, 1, 0.22);
+    border-radius: 18px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--prism-muted);
+    text-decoration: none;
+    transition: all var(--prism-ease);
+  }
+  .horizon-nav-list li a:hover,
+  .horizon-nav-list li a:active {
+    background: rgba(255, 94, 87, 0.2);
+    border-color: var(--prism-coral);
+    color: #ffffff !important;
+    text-decoration: none;
+  }
+  .solar-hero-title {
+    font-size: 2.15rem;
+  }
+  .solar-cards-4, .radar-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .twilight-footer-links {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .solar-hero-btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .solar-hero-btns .btn-solar-cta,
+  .solar-hero-btns .btn-solar-recommend,
+  .prism-plan-card .btn-solar-cta {
+    width: 100%;
+    min-height: 48px;
+    font-size: 1rem;
+  }
+  .prism-subpage-box {
+    padding: 24px;
+  }
+}
